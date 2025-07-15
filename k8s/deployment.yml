@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gov-data-viewer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gov-data-viewer
+  template:
+    metadata:
+      labels:
+        app: gov-data-viewer
+    spec:
+      containers:
+      - name: gov-data-viewer
+        image: gov-data-viewer:latest
+        ports:
+        - containerPort: 5000
