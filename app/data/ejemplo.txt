@@ -1,0 +1,4 @@
+Nombre,Autorizacion,Fecha,Grado
+Juan Perez,AUT-001,2025-01-10,85
+Ana Torres,AUT-002,2025-03-22,92
+Luis Ramirez,AUT-003,2025-05-15,78
