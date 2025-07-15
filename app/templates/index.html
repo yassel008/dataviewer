@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visor de Datos Gubernamentales</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Visor de Datos de Autorizaciones</h1>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Autorización</th>
+                <th>Fecha</th>
+                <th>Grado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.nombre }}</td>
+                <td>{{ row.autorizacion }}</td>
+                <td>{{ row.fecha }}</td>
+                <td>{{ row.grado }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div id="chart" style="height: 400px;"></div>
+</div>
+
+<script>
+    var data = [{
+        x: {{ data | map(attribute='nombre') | list | tojson }},
+        y: {{ data | map(attribute='grado') | list | tojson }},
+        type: 'bar'
+    }];
+    Plotly.newPlot('chart', data);
+</script>
+</body>
+</html>
