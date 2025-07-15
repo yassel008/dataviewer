@@ -1,5 +1,4 @@
-
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from pymongo import MongoClient
 import os
 
@@ -18,6 +17,3 @@ def home():
 def ver_coleccion(coleccion):
     docs = list(db[coleccion].find({}, {"_id": 0}))
     return render_template("index.html", data=docs, coleccion=coleccion)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
