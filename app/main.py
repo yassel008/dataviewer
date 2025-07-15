@@ -1,23 +1,23 @@
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from pymongo import MongoClient
 import os
 
 app = Flask(__name__)
 
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongo:27017/")
+client = MongoClient(MONGO_URI)
+db = client["SERVICE_MANAGER_PROD"]
+
 @app.route("/")
-def index():
-    data = []
-    filepath = os.path.join(os.path.dirname(__file__), "data", "ejemplo.txt")
-    with open(filepath, "r") as f:
-        for line in f.readlines()[1:]:
-            nombre, autorizacion, fecha, grado = line.strip().split(",")
-            data.append({
-                "nombre": nombre,
-                "autorizacion": autorizacion,
-                "fecha": fecha,
-                "grado": grado
-            })
-    return render_template("index.html", data=data)
+def home():
+    collections = db.list_collection_names()
+    return render_template("home.html", collections=collections)
+
+@app.route("/ver/<coleccion>")
+def ver_coleccion(coleccion):
+    docs = list(db[coleccion].find({}, {"_id": 0}))
+    return render_template("index.html", data=docs, coleccion=coleccion)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
